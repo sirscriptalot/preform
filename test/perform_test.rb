@@ -21,12 +21,14 @@ end
 class AccountForm < Preform::Form
   attr_reader :email, :password
 
-  def validate
+  def after_initialize
     @email    = EmailField.new(:email, params['email'])
     @password = PasswordField.new(:password, params['password'])
+  end
 
-    errors.merge!(email.errors)
-    errors.merge!(password.errors)
+  def validate
+    merge_errors! email
+    merge_errors! password
   end
 
   def attributes

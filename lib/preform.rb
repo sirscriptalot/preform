@@ -1,5 +1,5 @@
 module Preform
-  VERSION = '0.1.0'
+  VERSION = '0.1.1'
 
   module Validatable
     def validate
@@ -24,6 +24,10 @@ module Preform
       Hash.new { |hash, key| hash[key] = [] }
     end
 
+    def merge_errors!(other)
+      errors.merge!(other.errors)
+    end
+
     def assert(predicate, key, msg)
       return if predicate
 
@@ -40,6 +44,12 @@ module Preform
 
     def initialize(key, value)
       @key, @value = key, value
+
+      after_initialize
+    end
+
+    def after_initialize
+      # no op
     end
   end
 
@@ -50,6 +60,12 @@ module Preform
 
     def initialize(params)
       @params = params
+
+      after_initialize
+    end
+
+    def after_initialize
+      # no op
     end
 
     def attributes
